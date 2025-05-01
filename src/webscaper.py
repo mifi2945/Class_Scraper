@@ -23,8 +23,8 @@ for entry in args.courses:
     COURSES.append({'course': course, 'section': f'{section}\n'})
 
 # debug
-print(COURSES)
-exit(0)
+# print(COURSES)
+# exit(0)
 
 # set up options
 options = ChromeOptions()
@@ -40,7 +40,7 @@ driver.implicitly_wait(5)
 
 
 wish_list = driver.find_element(By.ID, "wishlist-wishlist")
-wish_list.send_keys(COURSES)
+wish_list.send_keys([f'{course["course"]} {course["section"]}' for course in COURSES])
 
 driver.find_element(By.CLASS_NAME, "msoe-submit-button").click()
 

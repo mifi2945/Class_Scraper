@@ -11,13 +11,20 @@ import numpy as np
 
 # set up command line arguments
 parser = argparse.ArgumentParser(description="Web scraper for MSOE course registration.")
-parser.add_argument('courses', nargs='*', help='Add courses to wishlist in the format: [DEPARTMENT]-[COURSE NUMBER] (ie MTH-1120)')
+parser.add_argument('courses', nargs='*', help='Add courses to wishlist in the format: [DEPARTMENT]-[COURSE NUMBER]:[SECTION] (ie MTH-1120:002)')
 args = parser.parse_args()
-COURSES = np.array(args.courses) + '\n'
+
+COURSES = []
+for entry in args.courses:
+    if ':' in entry:
+        course, section = entry.split(':', 1)
+    else:
+        course, section = entry, ''
+    COURSES.append({'course': course, 'section': f'{section}\n'})
 
 # debug
-# print(COURSES)
-# exit(0)
+print(COURSES)
+exit(0)
 
 # set up options
 options = ChromeOptions()
@@ -31,10 +38,14 @@ driver = webdriver.Chrome(service=ChromeService(ChromeDriverManager().install())
 driver.get("https://resources.msoe.edu/sched/index.php")
 driver.implicitly_wait(5)
 
+
 wish_list = driver.find_element(By.ID, "wishlist-wishlist")
 wish_list.send_keys(COURSES)
 
 driver.find_element(By.CLASS_NAME, "msoe-submit-button").click()
+
+# after loading all courses
+
 
 
 # debugging, leaves browser open for 60 seconds

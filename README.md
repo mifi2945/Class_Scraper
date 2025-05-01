@@ -8,7 +8,7 @@ This project is aimed at two main goals: Learn Selenium and solve a real problem
 ### Usage
 In command line, call:
 `python src/webscaper.py [courses]`  
-where `courses` will be positional arguments to input in the format [DEPARTMENT]-[COURSE NUMBER] (ie MTH-1120)
+where `courses` will be positional arguments to input in the format [DEPARTMENT]-[COURSE NUMBER]:[SECTION] (ie MTH-1120:002)
 
 call `python src/webscaper.py -h` for help
 

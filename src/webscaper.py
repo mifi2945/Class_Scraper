@@ -44,6 +44,12 @@ wish_list.send_keys([f'{course["course"]} {course["section"]}' for course in COU
 
 driver.find_element(By.CLASS_NAME, "msoe-submit-button").click()
 
+def print_sections(td):
+    row = td.find_element(By.XPATH, "./..")
+    row_td_list = row.find_elements(By.XPATH, './/span[@style="color:red"]')
+    for row_td in row_td_list:
+        print(f'{course["course"]} {td.text}: {row_td.text if row_td.text !="" else "Open"}')
+
 
 # after loading all courses
 for course in COURSES:
@@ -56,12 +62,11 @@ for course in COURSES:
 
     # search through sections for the one that matches
     for td in td_list:
-        if td.text == course['section']:
-            row = td.find_element(By.XPATH, "./ancestor::tr")
-            row_td_list = row.find_elements(By.XPATH, './/span[@style="color:red"]')
-            for row_td in row_td_list:
-                print(f'{course["course"]} {course["section"]}: {row_td.text if row_td.text !="" else "Open"}')
+        if course['section'] == '':
+            print_sections(td)
+        elif td.text == course['section']:
+            print_sections(td)
 # print([td_list[i].text for i in range(len(td_list))])
 
 # debugging, leaves browser open for 60 seconds
-time.sleep(60)
+# time.sleep(60)

@@ -30,8 +30,8 @@ for entry in args.courses:
 options = ChromeOptions()
 options.add_argument("--disable-extensions")
 options.add_argument("--log-level=3") #supress most logs
-#options.add_argument("--headless") # run in headless mode (no GUI)
-#options.add_argument("--no-gpu")
+options.add_argument("--headless") # run in headless mode (no GUI)
+options.add_argument("--no-gpu")
 
 # start Chrome driver
 driver = webdriver.Chrome(service=ChromeService(ChromeDriverManager().install()), options=options)
@@ -44,9 +44,24 @@ wish_list.send_keys([f'{course["course"]} {course["section"]}' for course in COU
 
 driver.find_element(By.CLASS_NAME, "msoe-submit-button").click()
 
+
 # after loading all courses
+for course in COURSES:
+    course['section'] = course['section'].strip('\n')
+    # find course container for that course
+    course_container = driver.find_element(By.XPATH, f"//th[text()='{course['course']}']")
 
+    # get all sections for that course
+    td_list = course_container.find_elements(By.XPATH, "//tr/td[@nowrap and @rowspan]")
 
+    # search through sections for the one that matches
+    for td in td_list:
+        if td.text == course['section']:
+            row = td.find_element(By.XPATH, "./ancestor::tr")
+            row_td_list = row.find_elements(By.XPATH, './/span[@style="color:red"]')
+            for row_td in row_td_list:
+                print(f'{course["course"]} {course["section"]}: {row_td.text if row_td.text !="" else "Open"}')
+# print([td_list[i].text for i in range(len(td_list))])
 
 # debugging, leaves browser open for 60 seconds
 time.sleep(60)

@@ -4,3 +4,14 @@ This project is aimed at two main goals: Learn Selenium and solve a real problem
 
 ### Requirements
 `pip install selenium webdriver-manager`
+
+### Usage
+In command line, call:
+`python src/webscaper.py [courses]`  
+where `courses` will be positional arguments to input in the format [DEPARTMENT]-[COURSE NUMBER] (ie MTH-1120)
+
+call `python src/webscaper.py -h` for help
+
+### Version
+V 1.0.BETA
+Testing and setting everything up

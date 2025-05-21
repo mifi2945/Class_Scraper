@@ -29,7 +29,8 @@ for entry in args.courses:
 # set up options
 options = ChromeOptions()
 options.add_argument("--disable-extensions")
-options.add_argument("--log-level=3") #supress most logs
+# options.add_argument("--log-level=DEBUG") #supress most logs
+options.add_argument("--silent")
 options.add_argument("--headless") # run in headless mode (no GUI)
 options.add_argument("--no-gpu")
 
